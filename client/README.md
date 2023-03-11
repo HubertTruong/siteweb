@@ -4,11 +4,15 @@ Welcome to Beaucoup trop de mots, a React app that tests your vocabulary skills 
 
 ## Running Locally
 
-With docker
+With npm
+
+```
+$ npm install
+$ npm start
 ```
 
-$ cd /server
-$ docker-compose build 
-$ docker-compose up -d 
+Or with docker-compose
 
+```
+$ docker-compose up --build
 ```

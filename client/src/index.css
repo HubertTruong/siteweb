@@ -1,0 +1,341 @@
+:root {
+  --white: white;
+  --black: rgb(24, 26, 27);
+  --app-red: red;
+  --app-green: green;
+  --guess-black: rgb(24, 26, 27);
+  --guess-gray: rgb(145, 145, 145);
+  --guess-yellow: rgb(255, 204, 0);
+  --guess-green: rgb(0, 204, 136);
+  --guess-text-red: red;
+  --app-width: min(100vw, var(--app-max-width));
+  --app-max-width: 600px;
+}
+html {
+  height: 100%;
+}
+body {
+  height: 100%;
+  background: var(--black);
+  color: var(--white);
+  font-family: "Outfit", sans-serif;
+  font-size: calc(var(--app-width) / 30);
+}
+table, th, td {
+  border: 1px solid white;
+}
+.tableLeaderboard{
+  width: 100%;
+  text-align: center;
+}
+#root {
+  height: 100%;
+}
+p {
+  margin: 0;
+}
+ul {
+  margin: 0;
+}
+a {
+  color: var(--white);
+}
+button {
+  font-size: calc(var(--app-width) / 30);
+  padding: calc(var(--app-width) / 75);
+  color: var(--white);
+  background-color: var(--black);
+  border: none;
+  border-style: double;
+  cursor: pointer;
+}
+
+/* Game */
+.game {
+  max-width: var(--app-max-width);
+  height: 100%;
+  margin: auto;
+
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+.game.win {
+  background: var(--app-green);
+}
+.game.lose {
+  background-color: var(--app-red);
+}
+.game.color-blind {
+  --guess-yellow: rgb(96, 165, 250);
+  --guess-green: rgb(251, 146, 60);
+}
+.game.wide {
+  max-width: calc(var(--app-max-width) * 2);
+}
+
+/* Header */
+.header {
+  padding: 4px;
+  display: grid;
+  grid-template-rows: auto auto;
+}
+.row-1 {
+  display: grid;
+  grid-template-columns: auto auto auto 1fr auto auto auto;
+  column-gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+.title {
+  margin: 0;
+  text-align: center;
+  font-size: calc(var(--app-width) / 18.5);
+}
+.icon {
+  cursor: pointer;
+  width: calc(var(--app-width) / 18.5);
+}
+.row-2 {
+  display: flex;
+  justify-content: space-between;
+}
+.cannot-win {
+  color: var(--guess-text-red);
+}
+.timer {
+  font-family: monospace;
+}
+
+/* Boards */
+.boards {
+  overflow-y: scroll;
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  align-content: start;
+  padding: 0 calc(var(--app-width) / 75) calc(var(--app-width) / 25)
+    calc(var(--app-width) / 75);
+  column-gap: calc(var(--app-width) / 75);
+  row-gap: calc(var(--app-width) / 25);
+}
+.game.wide .boards {
+  grid-template-columns: repeat(8, auto);
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: calc(var(--app-width) / 600);
+  padding: calc(var(--app-width) / 600);
+  background: var(--white);
+}
+
+.game:not(.game.hide-completed-boards) .board.complete {
+  filter: contrast(0.5) brightness(0.5);
+  transition: filter 150ms ease-out;
+}
+
+.game.hide-completed-boards:not(.animate-hiding) .board.complete {
+  opacity: 0;
+  visibility: hidden;
+  display: block;
+  position: absolute;
+  left: -999em;
+}
+
+.game.hide-completed-boards.animate-hiding .board.complete {
+  animation-duration: 500ms;
+  animation-timing-function: ease-out;
+  animation-name: hide;
+  animation-fill-mode: both;
+}
+
+@keyframes hide {
+  0% {
+    opacity: 1;
+  }
+
+  99.99% {
+    filter: contrast(0.5) brightness(0.5);
+    opacity: 0;
+    visibility: initial;
+    display: initial;
+    position: initial;
+    left: initial;
+  }
+
+  100% {
+    visibility: hidden;
+    display: block;
+    position: absolute;
+    left: -999em;
+  }
+}
+
+.cell {
+  aspect-ratio: 1/1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--guess-black);
+  font-size: calc(var(--app-width) / 25);
+  line-height: 0.75;
+  user-select: none;
+
+  position: relative;
+}
+.cell.yellow {
+  color: var(--black);
+  background: var(--guess-yellow);
+}
+.cell.green {
+  color: var(--black);
+  background: var(--guess-green);
+}
+.cell.text-red {
+  color: var(--guess-text-red);
+}
+.letter {
+  position: absolute;
+}
+
+/* Keyboard */
+.keyboard {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  row-gap: 2px;
+  column-gap: 2px;
+  font-size: calc(var(--app-width) / 20);
+  padding: 2px;
+}
+.keyboard.hidden {
+  display: none;
+}
+.game.wide .keyboard {
+  justify-self: center;
+  width: var(--app-max-width);
+}
+
+.key {
+  aspect-ratio: 1/1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid white;
+
+  cursor: pointer;
+  user-select: none;
+}
+.key.empty {
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
+  border-left: none;
+}
+
+/* Result */
+.result {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: calc(var(--app-width) / 75);
+  padding: calc(var(--app-width) / 75);
+  font-size: calc(var(--app-width) / 30);
+}
+.result.hidden {
+  display: none;
+}
+
+.share {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  row-gap: calc(var(--app-width) / 75);
+}
+.text {
+  text-align: center;
+  background-color: var(--black);
+  color: white;
+  border: 1px solid;
+  font-size: calc(var(--app-width) / 50);
+
+  margin: 0;
+}
+.text .emoji {
+  width: calc(var(--app-width) / 50);
+}
+.words {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  column-gap: calc(var(--app-width) / 75);
+  text-align: center;
+}
+.kofi {
+  grid-column: 1/3;
+  text-align: center;
+  font-size: calc(var(--app-width) / 50);
+}
+.kofi .emoji {
+  width: calc(var(--app-width) / 50);
+}
+
+.popup-wrapper {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  background: rgba(20, 20, 20, 0.6);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.popup-wrapper.hidden {
+  display: none;
+}
+.popup {
+  background-color: var(--black);
+  border: 1px solid white;
+
+  width: min(calc(var(--app-max-width) * 0.75), 100vw);
+  padding: calc(var(--app-width) / 20);
+
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+.separator {
+  width: 100%;
+}
+#form-nb-board{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.item-form-nb-board{
+  margin: 5px 0;
+}
+#nb-board{
+  width: 70px;
+}
+.close {
+  margin-top: calc(var(--app-width) / 30);
+}
+.reset{
+  margin-top: calc(var(--app-width) / 30);
+  background-color: red;
+}
+
+/* Settings */
+.group label {
+  margin-left: calc(var(--app-width) / 75);
+}
+
+.group.animate-hiding {
+  margin-left: calc(var(--app-width) / 25);
+}
+
+.group.animate-hiding.active {
+  opacity: 0.5;
+}

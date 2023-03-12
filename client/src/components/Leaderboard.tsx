@@ -25,6 +25,10 @@ export default function Leaderboard() {
           <td> ${element.score}</td>
         </tr>`;
     });
+  })
+  .catch(function (error) {
+    console.log("ERROR axios.get");
+    console.log(error);
   });
 
   return (

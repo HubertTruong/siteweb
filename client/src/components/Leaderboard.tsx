@@ -1,5 +1,4 @@
 import cn from "classnames";
-import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { hidePopups, useSelector } from "../store";
 import axios from 'axios';
@@ -8,7 +7,7 @@ export default function Leaderboard() {
   const dispatch = useDispatch();
   const shown = useSelector((s) => s.popups.leaderboard);
 
-  axios.get(`http://192.168.99.10:${process.env.REACT_APP_SERVER_PORT}/test`, {
+  axios.get(`http://${process.env.URL}:${process.env.REACT_APP_SERVER_PORT}/test`, {
     params: {
       table: 'users',
     },
@@ -27,8 +26,6 @@ export default function Leaderboard() {
         </tr>`;
     });
   });
-
-
 
   return (
     <div className={cn("popup-wrapper", !shown && "hidden")}>

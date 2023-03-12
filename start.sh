@@ -5,7 +5,7 @@ docker-compose build
 
 # vérifier si la commande a échoué
 if [ $? -ne 0 ]; then
-  echo "La commande docker-compose build a échoué" | mailx -s "Erreur de construction de Docker Compose" "archisabatier@gmail.com"
+  echo "La commande docker-compose build a échoué" | mail -s "Erreur de construction de Docker Compose" "archisabatier@gmail.com"
   else 
   docker-compose up -d 
 fi

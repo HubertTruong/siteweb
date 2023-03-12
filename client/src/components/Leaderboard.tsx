@@ -8,7 +8,7 @@ export default function Leaderboard() {
   const dispatch = useDispatch();
   const shown = useSelector((s) => s.popups.leaderboard);
 
-  axios.get(`http://localhost:${process.env.REACT_APP_SERVER_PORT}/test`, {
+  axios.get(`http://192.168.99.10:${process.env.REACT_APP_SERVER_PORT}/test`, {
     params: {
       table: 'users',
     },

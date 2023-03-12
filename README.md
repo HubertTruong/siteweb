@@ -4,7 +4,10 @@ devops project
 
 ## Running Locally
 
-With docker
+just run ```start.sh```
+
+
+or with docker
 ```
 
 $ cd /server
